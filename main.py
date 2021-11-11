@@ -1,62 +1,44 @@
-from flask import Flask, jsonify
+from flask import Flask
 import requests
-app = Flask(__name__)
 
-i = int(input("enter your option from 1-3 ,1: search id. 2: search topic. 3:ppurchase. : "))
-
-def search(i):
-  while True:
-     if i == 1:
-      option = int(input("enter id"))
-      searchID(option),
-     elif i == 2:
-      option = input("enter id")
-      searchTopic(option),
-     elif i == 3:
-      option = int(input("enter id"))
-      purchase(option),
-     else :
-      print("incorect option" )
-
-     return print(i)
-      
+app = Flask(_name_)
 
 def searchID(id):
-    req=requests.get("http://192.168.100.8:7000/searchID/{}".format(id))
+    print(id)
 
-    if req.status_code == 200:
-        result=req.json() #content of json as dictionary
-        return jsonify(result)
-    elif req.status_code == 404:
-        return 'The server has not found anything matching the URI given'
-    else:
-        return 'Status code '+ req.status_code +' indicates to something ERROR!'
-
+    req = requests.get("http://192.168.100.6:6000/searchID/{}".format(id))
+    print(req.text)
+    return req.text
 
 
 def searchTopic(topic):
-    req=requests.get("http://192.168.100.8:7000/searchTopic/{}".format(topic)) #send to catalog
+    req = requests.get("http://192.168.100.6:6000/searchTopic/{}".format(topic))  # send to catalog
+    print(req.text)
+    req.text
 
-    if req.status_code == 200:
-        result=req.json() #content of json as dictionary
-        return jsonify(result)
-    elif req.status_code == 404:
-        return 'The server has not found anything matching the URI given'
-    else:
-        return 'Status code '+ req.status_code +' indicates to something ERROR!'
 
 def purchase(id):
+    req = requests.get("http://192.168.100.6:6000/purchase/{}".format(id))
+    print(req.text)
+    req.text
 
-    req = requests.get("http://192.168.100.9:9000/purchase/{}".format(id))
-    if req.status_code == 200:
-        result = req.json()  # content of json as dictionary
-        print('beautiful')
-        return jsonify(result)
-    elif req.status_code == 404:
-        return 'The server has not found anything matching the URI given'
+
+while (True):
+    i = int(input("Please, Enter your option from 1-3 :  1: search id.   2: search topic.   3:purchase.  4:finish. :"))
+
+    if i == 1:
+        w=int(input("Enter book id: "))
+        searchID(1)
+    elif i == 2:
+        t = input("Enter book topic: ")
+        searchTopic(t)
+    elif i == 3:
+        s = int(input("Enter book id: "))
+        purchase(s)
+    elif i == 3:
+        break
     else:
-        return 'Status code indicates to something ERROR!'
+        print("Error option, Try again")
 
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=6000)
+if _name_ == '_main_':
+    app.run(debug=True, host='0.0.0.0', port=2000)
