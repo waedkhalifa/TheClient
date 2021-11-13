@@ -1,44 +1,48 @@
-from flask import Flask
 import requests
 
-app = Flask(_name_)
+
 
 def searchID(id):
-    print(id)
 
-    req = requests.get("http://192.168.100.6:6000/searchID/{}".format(id))
-    print(req.text)
-    return req.text
+    req = requests.get("http://192.168.56.102:6000/searchID/{}".format(id))
+    if (req.status_code == 200):
+        print (req.text)
+
+    else:
+        print('Error,status code: '+ str(req.status_code))
 
 
 def searchTopic(topic):
-    req = requests.get("http://192.168.100.6:6000/searchTopic/{}".format(topic))  # send to catalog
-    print(req.text)
-    req.text
+    req = requests.get("http://192.168.56.102:6000/searchTopic/{}".format(topic))  # send to catalog
+    if (req.status_code == 200):
+        print(req.text)
+
+    else:
+        print('Error,status code: ' + str(req.status_code))
 
 
 def purchase(id):
-    req = requests.get("http://192.168.100.6:6000/purchase/{}".format(id))
-    print(req.text)
-    req.text
+    req = requests.post("http://192.168.56.102:6000/purchase/{}".format(id))
+    if (req.status_code == 200):
+        print(req.text)
+
+    else:
+        print('Error,status code: ' + str(req.status_code))
 
 
 while (True):
-    i = int(input("Please, Enter your option from 1-3 :  1: search id.   2: search topic.   3:purchase.  4:finish. :"))
+    i = int(input("Please, Enter your option from 1-4: \n 1: search id.\n 2: search topic. \n 3:purchase.\n 4:finish.\n"))
 
     if i == 1:
         w=int(input("Enter book id: "))
-        searchID(1)
+        searchID(w)
     elif i == 2:
         t = input("Enter book topic: ")
         searchTopic(t)
     elif i == 3:
         s = int(input("Enter book id: "))
         purchase(s)
-    elif i == 3:
-        break
+    elif i == 4:
+        exit()
     else:
         print("Error option, Try again")
-
-if _name_ == '_main_':
-    app.run(debug=True, host='0.0.0.0', port=2000)
